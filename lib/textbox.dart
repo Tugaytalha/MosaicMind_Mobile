@@ -92,7 +92,7 @@ class _TextboxState extends State<Textbox> {
                           ),
                         ),
                       ),
-                      child: Text('I like the caption'),
+                      child: Text('Correct'),
                     ),
                     Spacer(),
                     ElevatedButton(
@@ -110,7 +110,7 @@ class _TextboxState extends State<Textbox> {
                           ),
                         ),
                       ),
-                      child: Text('Change the caption and send'),
+                      child: Text('Fail'),
                     ),
                     SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   ],
