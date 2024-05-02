@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mosaic_mind/database.dart';
 
@@ -17,15 +18,16 @@ class _TextboxState extends State<Textbox> {
   int _failC = 0;
   int _updateC = 0;
   late DatabaseService databaseService;
+  String _text = 'Enter text here';
 
   @override
   void initState() {
     super.initState();
+    databaseService = DatabaseService(widget.docID);
     fetchDataAndUpdateCounts();
   }
 
   void fetchDataAndUpdateCounts() async {
-    databaseService = DatabaseService(widget.docID);
     await databaseService.fetchData();
 
     setState(() {
@@ -39,21 +41,35 @@ class _TextboxState extends State<Textbox> {
     await databaseService.updateData(_correctC, _failC, _updateC);
   }
 
-  String _text = 'Enter text here';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF403948), // Arka plan rengi #403948
+      backgroundColor: Color(0xFF403948),
       body: Center(
         child: Container(
-          color: Color(0xFF403948), // Container rengi değiştirilmedi
+          color: Color(0xFF403948),
+          padding: EdgeInsets.all(16.0), // Add padding around the container
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(widget.imagePath),
-                SizedBox(height: 20.0),
+                Container(
+                  padding: EdgeInsets.all(8.0), // Add padding around the image
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 2.0), // Add border
+                    borderRadius: BorderRadius.circular(10.0), // Add border radius
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0), // Add border radius
+                    child: Image.file(
+                      File(widget.imagePath), // Display the image from the file path
+                      fit: BoxFit.cover, // Cover the available space while maintaining aspect ratio
+                      width: MediaQuery.of(context).size.width * 0.9, // Adjust width
+                      height: MediaQuery.of(context).size.height * 0.4, // Adjust height
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.0), // Add space between the image and other widgets
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: TextFormField(
