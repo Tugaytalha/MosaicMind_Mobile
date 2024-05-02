@@ -7,8 +7,10 @@ import 'package:mosaic_mind/textbox.dart';
 
 class CameraApp extends StatefulWidget {
   final String documentID;
+  final String ipAddress;
 
-  CameraApp({Key? key, required this.documentID}) : super(key: key);
+  CameraApp({Key? key, required this.documentID, required this.ipAddress})
+      : super(key: key);
 
   File? image;
 
@@ -35,8 +37,10 @@ class CameraApp extends StatefulWidget {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              Textbox(imagePath: imageTemporary.path, docID: documentID),
+          builder: (context) => Textbox(
+              imagePath: imageTemporary.path,
+              docID: documentID,
+              ipAdd: ipAddress),
         ),
       );
     } on PlatformException catch (e) {

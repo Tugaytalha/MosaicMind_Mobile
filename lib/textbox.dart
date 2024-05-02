@@ -5,8 +5,13 @@ import 'package:mosaic_mind/database.dart';
 class Textbox extends StatefulWidget {
   final String imagePath;
   final String docID;
+  final String ipAdd;
 
-  Textbox({Key? key, required this.imagePath, required this.docID})
+  Textbox(
+      {Key? key,
+      required this.imagePath,
+      required this.docID,
+      required this.ipAdd})
       : super(key: key);
 
   @override
@@ -38,7 +43,7 @@ class _TextboxState extends State<Textbox> {
   }
 
   void updateDatabase() async {
-    await databaseService.updateData(_correctC, _failC, _updateC);
+    await databaseService.updateData(_correctC, _failC, _correctC + _failC);
   }
 
   @override
@@ -56,20 +61,29 @@ class _TextboxState extends State<Textbox> {
                 Container(
                   padding: EdgeInsets.all(8.0), // Add padding around the image
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 2.0), // Add border
-                    borderRadius: BorderRadius.circular(10.0), // Add border radius
+                    border: Border.all(
+                        color: Colors.white, width: 2.0), // Add border
+                    borderRadius:
+                        BorderRadius.circular(10.0), // Add border radius
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10.0), // Add border radius
+                    borderRadius:
+                        BorderRadius.circular(10.0), // Add border radius
                     child: Image.file(
-                      File(widget.imagePath), // Display the image from the file path
-                      fit: BoxFit.cover, // Cover the available space while maintaining aspect ratio
-                      width: MediaQuery.of(context).size.width * 0.9, // Adjust width
-                      height: MediaQuery.of(context).size.height * 0.4, // Adjust height
+                      File(widget
+                          .imagePath), // Display the image from the file path
+                      fit: BoxFit
+                          .cover, // Cover the available space while maintaining aspect ratio
+                      width: MediaQuery.of(context).size.width *
+                          0.9, // Adjust width
+                      height: MediaQuery.of(context).size.height *
+                          0.4, // Adjust height
                     ),
                   ),
                 ),
-                SizedBox(height: 20.0), // Add space between the image and other widgets
+                SizedBox(
+                    height:
+                        20.0), // Add space between the image and other widgets
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: TextFormField(
