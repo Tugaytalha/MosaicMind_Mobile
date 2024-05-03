@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:mosaic_mind/camera.dart';
 import 'package:mosaic_mind/database.dart';
 
 class Textbox extends StatefulWidget {
@@ -7,12 +8,12 @@ class Textbox extends StatefulWidget {
   final String docID;
   final String ipAdd;
 
-  Textbox(
-      {Key? key,
-      required this.imagePath,
-      required this.docID,
-      required this.ipAdd})
-      : super(key: key);
+  Textbox({
+    Key? key,
+    required this.imagePath,
+    required this.docID,
+    required this.ipAdd,
+  }) : super(key: key);
 
   @override
   _TextboxState createState() => _TextboxState();
@@ -24,6 +25,7 @@ class _TextboxState extends State<Textbox> {
   int _updateC = 0;
   late DatabaseService databaseService;
   String _text = 'Enter text here';
+  bool _textChanged = false;
 
   @override
   void initState() {
@@ -34,7 +36,6 @@ class _TextboxState extends State<Textbox> {
 
   void fetchDataAndUpdateCounts() async {
     await databaseService.fetchData();
-
     setState(() {
       _correctC = databaseService.correctC;
       _failC = databaseService.failC;
@@ -43,7 +44,16 @@ class _TextboxState extends State<Textbox> {
   }
 
   void updateDatabase() async {
-    await databaseService.updateData(_correctC, _failC, _correctC + _failC);
+    await databaseService.updateData(_correctC, _failC, _failC);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CameraApp(
+          documentID: widget.docID,
+          ipAddress: widget.ipAdd,
+        ),
+      ),
+    );
   }
 
   @override
@@ -53,65 +63,71 @@ class _TextboxState extends State<Textbox> {
       body: Center(
         child: Container(
           color: Color(0xFF403948),
-          padding: EdgeInsets.all(16.0), // Add padding around the container
+          padding: EdgeInsets.all(16.0),
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(8.0), // Add padding around the image
+                  padding: EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.white, width: 2.0), // Add border
-                    borderRadius:
-                        BorderRadius.circular(10.0), // Add border radius
+                    border: Border.all(color: Colors.white, width: 2.0),
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(10.0), // Add border radius
+                    borderRadius: BorderRadius.circular(10.0),
                     child: Image.file(
-                      File(widget
-                          .imagePath), // Display the image from the file path
-                      fit: BoxFit
-                          .cover, // Cover the available space while maintaining aspect ratio
-                      width: MediaQuery.of(context).size.width *
-                          0.9, // Adjust width
-                      height: MediaQuery.of(context).size.height *
-                          0.4, // Adjust height
+                      File(widget.imagePath),
+                      fit: BoxFit.cover,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.4,
                     ),
                   ),
                 ),
-                SizedBox(
-                    height:
-                        20.0), // Add space between the image and other widgets
+                SizedBox(height: 20.0),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.7,
-                  child: TextFormField(
-                    initialValue: _text,
-                    onTap: () {
-                      _showEditDialog(context);
-                    },
-                    maxLines: null,
-                    decoration: InputDecoration(
-                      hintText: 'Enter text here',
-                      hintStyle: TextStyle(color: Colors.white),
-                      border: InputBorder.none,
-                    ),
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-                    ElevatedButton(
-                      onPressed: () {
-                        _correctC++;
-                        updateDatabase();
+                  child: Builder(// Wrap TextFormField in Builder
+                      builder: (context) {
+                    return TextFormField(
+                      initialValue: _text,
+                      onTap: () {
+                        _showEditDialog(context);
                       },
+                      maxLines: null,
+                      readOnly: !_textChanged,
+                      decoration: InputDecoration(
+                        hintText: 'Enter text here',
+                        hintStyle: TextStyle(color: Colors.white),
+                        filled: true,
+                        fillColor: Color(0xFF635F5E),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide.none,
+                        ),
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: 14.0, horizontal: 10.0),
+                      ),
+                      style: TextStyle(color: Colors.white),
+                      onChanged: (value) {
+                        setState(() {
+                          _textChanged = true;
+                        });
+                      },
+                    );
+                  }),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: !_textChanged
+                          ? () {
+                              _correctC++;
+                              updateDatabase();
+                            }
+                          : null,
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Color(0xFFC5524A)),
@@ -124,12 +140,14 @@ class _TextboxState extends State<Textbox> {
                       ),
                       child: Text('Correct'),
                     ),
-                    Spacer(),
+                    SizedBox(width: 10),
                     ElevatedButton(
-                      onPressed: () {
-                        _failC++;
-                        updateDatabase();
-                      },
+                      onPressed: _textChanged
+                          ? () {
+                              _failC++;
+                              updateDatabase();
+                            }
+                          : null,
                       style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Color(0xFFC5524A)),
@@ -140,14 +158,11 @@ class _TextboxState extends State<Textbox> {
                           ),
                         ),
                       ),
-                      child: Text('Fail'),
+                      child: Text('Update Model'),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                   ],
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
-                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 Text(
                   'Mosaic Mind V1',
                   style: TextStyle(
@@ -196,6 +211,7 @@ class _TextboxState extends State<Textbox> {
     if (newText != null) {
       setState(() {
         _text = newText;
+        _textChanged = true;
       });
     }
   }
