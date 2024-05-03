@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:mosaic_mind/camera.dart';
 import 'package:mosaic_mind/database.dart';
+import 'package:mosaic_mind/selection.dart';
 
 class Textbox extends StatefulWidget {
   final String imagePath;
@@ -48,10 +49,7 @@ class _TextboxState extends State<Textbox> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => CameraApp(
-          documentID: widget.docID,
-          ipAddress: widget.ipAdd,
-        ),
+        builder: (context) => Selection(),
       ),
     );
   }
