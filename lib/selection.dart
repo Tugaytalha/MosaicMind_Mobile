@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:mosaic_mind/authantication/AuthEmail/auth.dart';
 import 'package:mosaic_mind/camera.dart';
+import 'package:mosaic_mind/database.dart';
 
 class Selection extends StatefulWidget {
   const Selection({Key? key}) : super(key: key);
@@ -75,6 +77,18 @@ class _SelectionState extends State<Selection> {
     );
   }
 
+  void onClickedReset() {
+    DatabaseService("raspberry_machine_1").resetDatabase();
+    DatabaseService("raspberry_machine_2").resetDatabase();
+    DatabaseService("raspberry_machine_3").resetDatabase();
+    DatabaseService("raspberry_machine_4").resetDatabase();
+  }
+
+  void quitApp() {
+    AuthService _auth = AuthService();
+    _auth.signOut();
+  }
+
   Widget _buildRaspberry(
       String name, String status, String documentID, String ipA) {
     bool isOnline = status == 'Online';
@@ -115,9 +129,38 @@ class _SelectionState extends State<Selection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFF403948),
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: IconButton(
+            icon: Icon(Icons.exit_to_app, color: Colors.white),
+            onPressed: quitApp,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: TextButton.icon(
+              icon: Icon(Icons.refresh, color: Colors.white),
+              label: Text('Reset', style: TextStyle(color: Colors.white)),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              ),
+              onPressed: onClickedReset,
+            ),
+          ),
+        ],
+      ),
       backgroundColor: const Color(0xFF403948),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 60.0, bottom: 20.0),

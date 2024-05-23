@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart'; // Import Firebase Core
+import 'package:mosaic_mind/authantication/AuthEmail/auth.dart';
+import 'package:mosaic_mind/authantication/AuthEmail/authenticate.dart';
+import 'package:mosaic_mind/authantication/Widgets/MyUser.dart';
 import 'package:mosaic_mind/selection.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -10,10 +14,26 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Selection(),
+    return StreamProvider<MyUser?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Builder(
+          builder: (context) {
+            final user = Provider.of<MyUser?>(context);
+            if (user == null) {
+              return const Authenticate();
+            } else {
+              return const Selection();
+            }
+          },
+        ),
+      ),
     );
   }
 }

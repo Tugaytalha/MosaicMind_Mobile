@@ -44,4 +44,8 @@ class DatabaseService {
   int get correctC => _correctC;
   int get failC => _failC;
   int get updateC => _updateC;
+
+  void resetDatabase() {
+    updateData(0, 0, 0);
+  }
 }
