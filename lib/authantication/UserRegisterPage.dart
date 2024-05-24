@@ -40,7 +40,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
       setState(() => loading = true);
 
       dynamic result =
-          await _auth.registerWithEmailAndPassword(email, password, username);
+          await _auth.registerWithEmailAndPassword(email, password);
 
       if (result is String) {
         setState(() => {
@@ -52,7 +52,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
               error = 'Authentication error',
               loading = false,
             });
-      } 
+      }
     }
   }
 
@@ -68,7 +68,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
         : Scaffold(
             resizeToAvoidBottomInset: false, // set it to false
 
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xFF403948),
             body: Container(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 28.0),
@@ -79,46 +79,6 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 50),
-
-                    // logo
-                    const Icon(
-                      Icons.door_front_door,
-                      color: Colors.green,
-                      size: 100,
-                    ),
-
-                    const SizedBox(height: 50),
-
-                    const Text(
-                      'Join us, Quit Smoking !!',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 16,
-                      ),
-                    ),
-
-                    const SizedBox(height: 25),
-
-                    // username textfield
-                    UiTextField(
-                      controller: usernameController,
-                      hintText: 'Username',
-                      obscureText: false,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Username is required';
-                        }
-                        if (value.length < 3) {
-                          return 'Username must be at least 3 characters long';
-                        }
-                        return null;
-                      },
-                      onChanged: (val) {
-                        setState(() => username = val);
-                      },
-                    ),
-
-                    const SizedBox(height: 10),
 
                     // email textfield
                     UiTextField(

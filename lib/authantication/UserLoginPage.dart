@@ -57,7 +57,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
         ? const Loading()
         : Scaffold(
             resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.white,
+            backgroundColor: Color(0xFF403948),
             body: Container(
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 28.0),
@@ -110,28 +110,46 @@ class _UserLoginPageState extends State<UserLoginPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        const Icon(
-          Icons.monitor_heart_sharp,
-          color: Colors.green,
-          size: 80,
-        ),
-        const SizedBox(
-          width: 8.0,
-        ),
-        Text(
-          'Quit Smoking',
-          style: TextStyle(
-            fontFamily: 'Pacifico',
-            color: Colors.green,
-            fontSize: 28.0,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 2.0,
-            shadows: [
-              Shadow(
-                color: Colors.black.withOpacity(0.5),
-                offset: const Offset(2, 2),
-                blurRadius: 4,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Mosaic Mind',
+                style: TextStyle(
+                  color:
+                      Colors.white, // Changed text color for a fresh look
+                  fontSize: 30, // Increased font size for emphasis
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2.0, // Added letter spacing for modern feel
+                ),
+                textAlign: TextAlign.center, // Centered the text
               ),
+              SizedBox(height: 20), // Added space between text and image
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                      15), // Rounded corners for the image
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26, // Added shadow for depth
+                      blurRadius: 10,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset(
+                    'assets/login.jpg',
+                    width: 250,
+                    height: 250,
+                    fit: BoxFit.cover, // Ensure the image covers the container
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -192,7 +210,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
             padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
               'If you are new, join us with your email',
-              style: TextStyle(color: Colors.green),
+              style: TextStyle(color: Color(0xFFD8C6BB)),
             ),
           ),
           Expanded(

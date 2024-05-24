@@ -76,7 +76,7 @@ class _SelectionState extends State<Selection> {
       ),
     );
   }
-
+  
   void onClickedReset() {
     DatabaseService("raspberry_machine_1").resetDatabase();
     DatabaseService("raspberry_machine_2").resetDatabase();
@@ -136,7 +136,11 @@ class _SelectionState extends State<Selection> {
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: IconButton(
-            icon: Icon(Icons.exit_to_app, color: Colors.white),
+            icon: Icon(
+              Icons.exit_to_app_rounded,
+              color: Colors.white,
+              size: 40,
+            ),
             onPressed: quitApp,
           ),
         ),

@@ -27,15 +27,15 @@ class UiTextField extends StatelessWidget {
         onChanged: onChanged,
         decoration: InputDecoration(
           enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
+            borderSide: BorderSide(color: Color(0xFFD8C6BB)),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey.shade400),
+            borderSide: BorderSide(color: Color(0xFFD8C6BB)),
           ),
-          fillColor: Colors.grey.shade200,
+          fillColor: Color(0xFFD8C6BB),
           filled: true,
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[500]),
+          hintStyle: TextStyle(color: Colors.black),
         ),
       ),
     );

@@ -17,13 +17,13 @@ class UiButton extends StatelessWidget {
         onPressed: onTap,
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(
-              Colors.green), // Change color here
+              Color(0xFFC5524A)), // Change color here
         ),
         child: Center(
           child: Text(
             buttonName,
             style: const TextStyle(
-              color: Colors.white,
+              color: Color(0xFFFFFFFF),
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
