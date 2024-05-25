@@ -39,32 +39,34 @@ class _SelectionState extends State<Selection> {
     final result = await Process.run('ping', ['-c', '1', '-W', '3', ipAddress]);
     final stdout = result.stdout as String;
     print('Ping response for Raspberry $raspberryNumber: $stdout');
-    if (stdout.contains('1 packets transmitted') &&
-        stdout.contains('0 received')) {
-      setState(() {
-        if (raspberryNumber == 1) {
-          _status1 = 'Online';
-        } else if (raspberryNumber == 2) {
-          _status2 = 'Online';
-        } else if (raspberryNumber == 3) {
-          _status3 = 'Online';
-        } else if (raspberryNumber == 4) {
-          _status4 = 'Online';
-        }
-      });
+
+    bool isOnline = stdout.contains('1 packets transmitted') &&
+        stdout.contains('0 received');
+
+    setState(() {
+      if (raspberryNumber == 1) {
+        _status1 = isOnline ? 'Online' : 'Offline';
+      } else if (raspberryNumber == 2) {
+        _status2 = isOnline ? 'Online' : 'Offline';
+      } else if (raspberryNumber == 3) {
+        _status3 = isOnline ? 'Online' : 'Offline';
+      } else if (raspberryNumber == 4) {
+        _status4 = isOnline ? 'Online' : 'Offline';
+      }
+    });
+
+    String documentID;
+    if (raspberryNumber == 1) {
+      documentID = "raspberry_machine_1";
+    } else if (raspberryNumber == 2) {
+      documentID = "raspberry_machine_2";
+    } else if (raspberryNumber == 3) {
+      documentID = "raspberry_machine_3";
     } else {
-      setState(() {
-        if (raspberryNumber == 1) {
-          _status1 = 'Offline';
-        } else if (raspberryNumber == 2) {
-          _status2 = 'Offline';
-        } else if (raspberryNumber == 3) {
-          _status3 = 'Offline';
-        } else if (raspberryNumber == 4) {
-          _status4 = 'Offline';
-        }
-      });
+      documentID = "raspberry_machine_4";
     }
+
+    DatabaseService(documentID).updateRaspberryStatus(isOnline);
   }
 
   void onClickedRasbperry(String _documentID, String _ipAddress) {
@@ -76,7 +78,7 @@ class _SelectionState extends State<Selection> {
       ),
     );
   }
-  
+
   void onClickedReset() {
     DatabaseService("raspberry_machine_1").resetDatabase();
     DatabaseService("raspberry_machine_2").resetDatabase();

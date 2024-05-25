@@ -105,3 +105,48 @@ dependencilerde bunlar :
     shared_preferences: ^2.2.3
     flutter_spinkit: ^5.2.1
     provider: ^6.1.2
+
+---------------------------------------------------------------------------------------------
+database e isOnline statusu eklemek için:
+1-database.dart a şu fonkşsyonu ekliyoruz:
+ Future<void> updateRaspberryStatus(bool isOnline) async {
+    return await usersCollection.doc(docID).update({
+      'isOnline': isOnline ? 1 : 0,
+    });
+  }
+
+2-selection.dart'taki void _pingAddress i bu fonksiyonla değiştirin...
+
+  void _pingAddress(String ipAddress, int raspberryNumber) async {
+    final result = await Process.run('ping', ['-c', '1', '-W', '3', ipAddress]);
+    final stdout = result.stdout as String;
+    print('Ping response for Raspberry $raspberryNumber: $stdout');
+
+    bool isOnline = stdout.contains('1 packets transmitted') &&
+        stdout.contains('0 received');
+
+    setState(() {
+      if (raspberryNumber == 1) {
+        _status1 = isOnline ? 'Online' : 'Offline';
+      } else if (raspberryNumber == 2) {
+        _status2 = isOnline ? 'Online' : 'Offline';
+      } else if (raspberryNumber == 3) {
+        _status3 = isOnline ? 'Online' : 'Offline';
+      } else if (raspberryNumber == 4) {
+        _status4 = isOnline ? 'Online' : 'Offline';
+      }
+    });
+
+    String documentID;
+    if (raspberryNumber == 1) {
+      documentID = "raspberry_machine_1";
+    } else if (raspberryNumber == 2) {
+      documentID = "raspberry_machine_2";
+    } else if (raspberryNumber == 3) {
+      documentID = "raspberry_machine_3";
+    } else {
+      documentID = "raspberry_machine_4";
+    }
+
+    DatabaseService(documentID).updateRaspberryStatus(isOnline);
+  }

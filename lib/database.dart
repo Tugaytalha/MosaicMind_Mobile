@@ -48,4 +48,10 @@ class DatabaseService {
   void resetDatabase() {
     updateData(0, 0, 0);
   }
+
+  Future<void> updateRaspberryStatus(bool isOnline) async {
+    return await usersCollection.doc(docID).update({
+      'isOnline': isOnline ? 1 : 0,
+    });
+  }
 }
