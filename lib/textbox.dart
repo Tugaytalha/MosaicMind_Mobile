@@ -70,7 +70,7 @@ class _TextboxState extends State<Textbox> {
       options: ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
 
-    final client = YourServiceClient(channel);
+    final client = MosaicClient(channel);
 
     try {
       final imageFile = widget.image;

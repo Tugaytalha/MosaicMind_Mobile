@@ -19,18 +19,18 @@ import 'test.pb.dart' as $0;
 
 export 'test.pb.dart';
 
-@$pb.GrpcServiceName('mosaic.YourService')
-class YourServiceClient extends $grpc.Client {
+@$pb.GrpcServiceName('mosaic.Mosaic')
+class MosaicClient extends $grpc.Client {
   static final _$processImageAndText = $grpc.ClientMethod<$0.ImageAndTextChunk, $0.TextResponse>(
-      '/mosaic.YourService/ProcessImageAndText',
+      '/mosaic.Mosaic/ProcessImageAndText',
       ($0.ImageAndTextChunk value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.TextResponse.fromBuffer(value));
   static final _$trainModel = $grpc.ClientMethod<$0.ImageAndTextChunk, $0.TextResponse>(
-      '/mosaic.YourService/TrainModel',
+      '/mosaic.Mosaic/TrainModel',
       ($0.ImageAndTextChunk value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.TextResponse.fromBuffer(value));
 
-  YourServiceClient($grpc.ClientChannel channel,
+  MosaicClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
       $core.Iterable<$grpc.ClientInterceptor>? interceptors})
       : super(channel, options: options,
@@ -45,11 +45,11 @@ class YourServiceClient extends $grpc.Client {
   }
 }
 
-@$pb.GrpcServiceName('mosaic.YourService')
-abstract class YourServiceBase extends $grpc.Service {
-  $core.String get $name => 'mosaic.YourService';
+@$pb.GrpcServiceName('mosaic.Mosaic')
+abstract class MosaicServiceBase extends $grpc.Service {
+  $core.String get $name => 'mosaic.Mosaic';
 
-  YourServiceBase() {
+  MosaicServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.ImageAndTextChunk, $0.TextResponse>(
         'ProcessImageAndText',
         processImageAndText,

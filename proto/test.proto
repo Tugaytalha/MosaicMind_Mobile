@@ -1,20 +1,16 @@
 syntax = "proto3";
 package mosaic;
 
-// Define the message for sending an image chunk with text
 message ImageAndTextChunk {
   bytes chunk_data = 1;
   string text = 2;
 }
 
-// Define the message for receiving the response text
 message TextResponse {
   string output_text = 1;
 }
 
-// Define the RPC service
-service YourService {
-  // RPC method to process the image and get text response
+service Mosaic {
   rpc ProcessImageAndText(stream ImageAndTextChunk) returns (TextResponse);
   rpc TrainModel(stream ImageAndTextChunk) returns (TextResponse);
 }

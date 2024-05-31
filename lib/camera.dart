@@ -70,7 +70,7 @@ class _CameraAppState extends State<CameraApp> {
       options: ChannelOptions(credentials: ChannelCredentials.insecure()),
     );
 
-    final client = YourServiceClient(channel);
+    final client = MosaicClient(channel);
     final imageFile = widget.image;
     final int chunkSize = 1024 * 64;
     final List<int> imageBytes = imageFile!.readAsBytesSync();

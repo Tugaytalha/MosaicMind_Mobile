@@ -13,7 +13,6 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-/// Define the message for sending an image chunk with text
 class ImageAndTextChunk extends $pb.GeneratedMessage {
   factory ImageAndTextChunk({
     $core.List<$core.int>? chunkData,
@@ -78,7 +77,6 @@ class ImageAndTextChunk extends $pb.GeneratedMessage {
   void clearText() => clearField(2);
 }
 
-/// Define the message for receiving the response text
 class TextResponse extends $pb.GeneratedMessage {
   factory TextResponse({
     $core.String? outputText,

@@ -19,15 +19,15 @@ class _SelectionState extends State<Selection> {
   String _status4 = 'Offline';
   Timer? _timer;
 
-  // String ipA1 = '192.168.137.231'; //batuhan
-  // String ipA2 = '192.168.137.213'; //yunus
-  // String ipA3 = '192.168.137.249'; //ali erdem
-  // String ipA4 = '192.168.137.29'; //tugay
+  String ipA1 = '192.168.137.50'; //yunus
+  String ipA2 = '192.168.137.222'; //tugay
+  String ipA3 = '192.168.137.26'; //batuhan
+  String ipA4 = '192.168.137.46'; //ali erdem
 
-  String ipA1 = '192.168.137.231'; //batuhan
-  String ipA2 = '192.168.1.114'; //yunus
-  String ipA3 = '192.168.137.249'; //ali erdem
-  String ipA4 = '192.168.1.107'; //tugay
+  // String ipA1 = '192.168.1.114'; //yunus
+  // String ipA2 = '192.168.1.107'; //tugay
+  // String ipA3 = '192.168.1.108'; //ali erdem
+  // String ipA4 = '192.168.1.110'; //batuhan
 
   @override
   void initState() {
@@ -69,12 +69,16 @@ class _SelectionState extends State<Selection> {
       setState(() {
         if (raspberryNumber == 1) {
           _status1 = 'Online';
+          DatabaseService("raspberry_machine_1").updateRaspberryStatus(true);
         } else if (raspberryNumber == 2) {
           _status2 = 'Online';
+          DatabaseService("raspberry_machine_2").updateRaspberryStatus(true);
         } else if (raspberryNumber == 3) {
           _status3 = 'Online';
+          DatabaseService("raspberry_machine_3").updateRaspberryStatus(true);
         } else if (raspberryNumber == 4) {
           _status4 = 'Online';
+          DatabaseService("raspberry_machine_4").updateRaspberryStatus(true);
         }
       });
     } catch (e) {
@@ -82,23 +86,19 @@ class _SelectionState extends State<Selection> {
       setState(() {
         if (raspberryNumber == 1) {
           _status1 = 'Offline';
+          DatabaseService("raspberry_machine_1").updateRaspberryStatus(false);
         } else if (raspberryNumber == 2) {
           _status2 = 'Offline';
+          DatabaseService("raspberry_machine_2").updateRaspberryStatus(false);
         } else if (raspberryNumber == 3) {
           _status3 = 'Offline';
+          DatabaseService("raspberry_machine_3").updateRaspberryStatus(false);
         } else if (raspberryNumber == 4) {
           _status4 = 'Offline';
+          DatabaseService("raspberry_machine_4").updateRaspberryStatus(false);
         }
       });
     }
-    DatabaseService("raspberry_machine_1").updateRaspberryStatus(
-        _status1.compareTo("Online") == 0 ? true : false);
-    DatabaseService("raspberry_machine_2").updateRaspberryStatus(
-        _status2.compareTo("Online") == 0 ? true : false);
-    DatabaseService("raspberry_machine_3").updateRaspberryStatus(
-        _status3.compareTo("Online") == 0 ? true : false);
-    DatabaseService("raspberry_machine_4").updateRaspberryStatus(
-        _status4.compareTo("Online") == 0 ? true : false);
   }
 
   void onClickedRasbperry(String _documentID, String _ipAddress) {
