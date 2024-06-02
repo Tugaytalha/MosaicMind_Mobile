@@ -16,7 +16,12 @@ To be able to receive/send data from/to the Raspberry Pi's, they need to be conn
 
 2. **Run the app:**
    - Choose one of the following options:
-     - **Flutter run:** Open a terminal and run `flutter run`.
+     - **Flutter run:**
+        - Open a terminal and run `flutter devices`.
+        - Note the name of your phone.
+        - Run the app via `flutter run -d "phoneName"`.
      - **VSCode:**
        - Open the project in VSCode.
+       - If you are asked to run `dart pub get`, accept. This will resolve the dependencies.
+       - Choose your phone from the bottom right menu.
        - Click on the "Run without debugging" button.
